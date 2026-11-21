@@ -87,20 +87,13 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-   uint8_t old=GPIO_PIN_SET;
-	 uint32_t lasttime=0;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {uint8_t new=HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0);
-		if(new!=old){
-		lasttime=HAL_GetTick();
-		old=new;}
-    if(HAL_GetTick()-lasttime==20&&new==GPIO_PIN_SET){
-    HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
-    lasttime=0;}			
+  {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -148,7 +141,10 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{if(GPIO_Pin==GPIO_PIN_0){
+	HAL_Delay(20);
+	HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);}}
 /* USER CODE END 4 */
 
 /**
